@@ -17,7 +17,7 @@ export default function BaseIP(props) {
      }
      if (props.cidr){
        handleNewQuestion(props.cidr);
-      }
+     }
   }, [cidr]);
 
   const check = (idx: number) => {
@@ -31,7 +31,7 @@ export default function BaseIP(props) {
   return (
     <>
       <h3>{cidr.ip}/{cidr.suffix}</h3>
-      <p> What is the Base IP? <small>{answer+1}</small></p>
+      <p> What is the Base IP?</p>
         {choices?.map((choice, idx)=> (
             <button key={idx} onClick={() => { check(idx) }}> {choice} </button>
         ))}
