@@ -1,6 +1,6 @@
 import {useState} from "react";
 import './App.css'
-import Choices from "./components/Choices"
+import BaseIP from "./components/BaseIP"
 
 
 function App() {
@@ -39,12 +39,13 @@ function App() {
       <h1> CIDR Game </h1>
       <hr />
       <button onClick={() => { newGame() }} > New Game </button>
-      <Choices
+      {cidr.ip && <h2> SCORE: {correct}/{incorrect}</h2>}
+      { cidr.ip && <BaseIP
         cidr={cidr}
         handleCorrect={handleCorrect}
         handleIncorrect={handleIncorrect}
        />
-      <h4>{correct}/{incorrect}</h4>
+      }
     </>
   )
 }

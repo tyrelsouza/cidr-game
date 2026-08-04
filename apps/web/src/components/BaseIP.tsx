@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 
-export default function Choices(props) {
+export default function BaseIP(props) {
   const [choices,  setChoices] = useState([]);
   const [answer, setAnswer] = useState(0);
   const {cidr} = props; 
@@ -26,20 +26,15 @@ export default function Choices(props) {
       } else {
         props.handleIncorrect();
       }
-
   }
 
   return (
     <>
       <h3>{cidr.ip}/{cidr.suffix}</h3>
-      <ul>
+      <p> What is the Base IP? <small>{answer+1}</small></p>
         {choices?.map((choice, idx)=> (
-          <li key={idx}>
-            <button onClick={() => { check(idx) }}> {choice} </button>
-          </li>
+            <button key={idx} onClick={() => { check(idx) }}> {choice} </button>
         ))}
-      </ul>
-      <h3> {answer} </h3>
     </>
   )
 }
