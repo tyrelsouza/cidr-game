@@ -1,9 +1,22 @@
-import express from "express";
+import express from 'express';
+import { Request, Response } from 'express';
+import {cidrChoices, randomIP, randomSuffix} from "./choice.ts"
+import { CidrChoiceQuery } from "@cidr-game/shared"
 
 const app = express();
 
 app.get("/api/hello", (_, res) => {
     res.json({ message: "Hello!" });
+});
+
+app.get("/api/new_ip", (_, res: Response) => {
+    res.json({"ip": randomIP(), "suffix": randomSuffix()})
+});
+
+app.get("/api/generate", (req: Request<{}, {}, {}, CidrChoiceQuery>, res: Response) => {
+    const base = req.query.base || '192.168.1.1';
+    const suffix =  Number(req.query.suffix || '30');
+    res.json(cidrChoices( base, suffix));
 });
 
 app.listen(3000, () => {

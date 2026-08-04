@@ -1,8 +1,4 @@
-export interface User {
-    uuid: string;
-    name: string;
+export interface CidrChoiceQuery {
+  base?: string;
+  suffix?: string;
 }
-export type Choice = {
-    answer: number;
-    reason: string;
-};
