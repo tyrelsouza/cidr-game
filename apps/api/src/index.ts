@@ -1,6 +1,7 @@
 import express from 'express';
 import { Request, Response } from 'express';
-import {cidrChoices, randomIP, randomSuffix} from "./choice.ts"
+import {randomIP, randomSuffix} from "./ip.ts"
+import {cidrChoices} from "./choice.ts"
 import { CidrChoiceQuery } from "@cidr-game/shared"
 
 const app = express();
