@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import HelloWorld from './components/HelloWorld.vue'
+import CIDRBaseIP from './components/CIDRBaseIP.vue'
 </script>
 
 <template>
-  <HelloWorld />
+  <CIDRBaseIP />
 </template>

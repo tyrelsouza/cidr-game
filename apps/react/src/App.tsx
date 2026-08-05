@@ -1,10 +1,11 @@
 import {useState} from "react";
 import './App.css'
 import BaseIP from "./components/BaseIP"
+import type { CidrChoices } from "@cidr-game/shared";
 
 
 function App() {
-  const [cidr, setCidr] = useState({});
+  const [cidr, setCidr] = useState<CidrChoices>({'ip': '', 'choices': [], answer: -1});
   const [correct, setCorrect] = useState(0);
   const [incorrect, setIncorrect] = useState(0);
   const [total, setTotal] = useState(0);
