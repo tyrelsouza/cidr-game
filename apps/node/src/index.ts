@@ -1,8 +1,8 @@
 import express from 'express';
-import { Request, Response } from 'express';
+import type { Request, Response } from 'express';
 import {randomIP, randomSuffix} from "./ip.ts"
 import {cidrChoices} from "./choice.ts"
-import { CidrChoiceQuery } from "@cidr-game/shared"
+import type { CidrChoiceQuery } from "@cidr-game/shared";
 
 const app = express();
 

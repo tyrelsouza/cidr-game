@@ -33,13 +33,12 @@ function handleChoiceClick(choice: number) {
     }
     getNewCIDR()
 }
+
 function newGame(){
     correct.value = 0;
     incorrect.value = 0;
     getNewCIDR()
 }
-
-
 </script>
 
 <template>

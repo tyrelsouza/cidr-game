@@ -1,11 +1,10 @@
-import {randomIP, randomSuffix, ipToInt, intToIp} from "./ip.ts"
+import {ipToInt, intToIp} from "./ip.ts"
 import {shuffle} from "./utils.ts"
 
 
-function unmask(ip: string, prefix: number): string {
+function unmask(ip: string, prefix: number): number {
     const ipInt = ipToInt(ip);
     const mask = (0xffffffff << (32 - prefix)) >>> 0;
-    const blockSize = 2 ** (32 - prefix);
     return ipInt & mask;
 }
 
