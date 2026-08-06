@@ -1,4 +1,4 @@
-import {ipToInt, intToIp, randomIP, randomSuffix} from "./ip.ts"
+import {ipToInt, intToIp, randomIP, randomSuffix, availableHosts} from "./ip.ts"
 import {describe, expect, it} from "vitest";
 
 describe("ipToInt", () => {
@@ -37,5 +37,20 @@ describe("randomIP", () => {
     for (var i = 0; i < 10000; i++){
       ipv4Regex.test(randomIP())
     }
+  })
+})
+
+describe("availableHosts", () => {
+  it("calculates number of hosts", () => {
+    expect(availableHosts(-22)).toBe(NaN)
+    expect(availableHosts(12312313123)).toBe(NaN)
+
+    expect(availableHosts(32)).toBe(1)
+    expect(availableHosts(31)).toBe(2)
+    expect(availableHosts(30)).toBe(2)
+    expect(availableHosts(29)).toBe(6)
+    expect(availableHosts(28)).toBe(14)
+    expect(availableHosts(2)).toBe(1073741822)
+    expect(availableHosts(1)).toBe(2147483646)
   })
 })

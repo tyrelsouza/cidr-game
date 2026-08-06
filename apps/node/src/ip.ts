@@ -48,4 +48,11 @@ function randomSuffix(): number {
   return weighted[Math.floor(Math.random() * weighted.length)];
 }
 
-export {randomIP, randomSuffix, intToIp, ipToInt};
+function availableHosts(cidr: number): number {
+  if (cidr < 0 || cidr > 32){ return NaN }
+  if (cidr === 32) { return 1 }
+  if (cidr === 31) { return 2 }
+  return Math.pow(2, 32-cidr) - 2;
+}
+
+export {randomIP, randomSuffix, intToIp, ipToInt, availableHosts};
