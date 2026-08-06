@@ -4,6 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "node": "npm run dev --workspace=apps/node",
+    "react": "npm run dev --workspace=apps/react",
+    "vue": "npm run dev --workspace=apps/vue",
     "test:watch": "npm run test:watch --workspaces"
   },
   "workspaces": [

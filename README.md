@@ -8,9 +8,7 @@ Really quick quiz game that keeps track of correct/incorrect guesses.
 ## Node Server
 
 ```bash
-cd apps/node
-npm i
-npm run dev
+npm run node
 ```
 
 ## Front End
@@ -18,17 +16,18 @@ npm run dev
 ### Vue3 Server
 
 ```bash
-cd apps/vue
-npm i
-npm run dev
+npm run vue
 ```
 
 ### React Server
 
 ```bash
-cd apps/react
-npm i
-npm run dev
+npm run react
+```
+
+### Tests
+```bash
+npm run test:watch
 ```
 
 #  FAQ
