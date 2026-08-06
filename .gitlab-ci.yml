@@ -4,6 +4,9 @@ stages:
   - test
 
 cache:
+  key:
+    files:
+      - package-lock.json
   paths:
     - .npm/
 
