@@ -43,18 +43,18 @@ function newGame(){
 
 <template>
     <h1> CIDR Game </h1>
+    <hr />
     <button @click="newGame"> New Game </button>
-    <h2> SCORE: {{correct}}/{{incorrect}}</h2>
-    
+    <h2 v-if="cidr.ip"> SCORE: {{correct}}/{{incorrect}}</h2>
     <div v-if="cidr.ip">
-    <h3>{{cidr.ip}}/{{cidr.suffix}}</h3>
+      <h3>{{cidr.ip}}/{{cidr.suffix}}</h3>
       <p> What is the Base IP?</p>
       <button
-        v-for="(choice, index) in cidrChoice.choices"
-        :key="index"
-        @click="handleChoiceClick(index)"
-    >
-        {{ choice }}
-    </button>
+          v-for="(choice, index) in cidrChoice.choices"
+          :key="index"
+          @click="handleChoiceClick(index)"
+      >
+          {{ choice }}
+      </button>
     </div>  
 </template>

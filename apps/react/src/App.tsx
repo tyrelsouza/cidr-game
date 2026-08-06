@@ -41,12 +41,15 @@ function App() {
       <hr />
       <button onClick={() => { newGame() }} > New Game </button>
       {cidr.ip && <h2> SCORE: {correct}/{incorrect}</h2>}
-      { cidr.ip && <BaseIP
-        cidr={cidr}
-        handleCorrect={handleCorrect}
-        handleIncorrect={handleIncorrect}
-       />
-      }
+      
+      <div>
+        { cidr.ip && <BaseIP
+          cidr={cidr}
+          handleCorrect={handleCorrect}
+          handleIncorrect={handleIncorrect}
+         />
+        }
+      </div>
     </>
   )
 }
