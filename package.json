@@ -7,7 +7,8 @@
     "node": "npm run dev --workspace=apps/node",
     "react": "npm run dev --workspace=apps/react",
     "vue": "npm run dev --workspace=apps/vue",
-    "test:watch": "npm run test:watch --workspaces"
+    "test:watch": "npm run test:watch --workspaces",
+   "test": "vitest run"
   },
   "workspaces": [
     "apps/*",

@@ -1,0 +1,27 @@
+image: node:22.4.0
+
+stages:
+  - npm
+  - test
+
+npm:
+  stage: npm
+  script:
+    - npm config set registry ${CI_NPM_REGISTRY}
+    - npm install --workspaces
+  cache:
+    paths:
+      - node_modules/
+  artifacts:
+    expire_in: 1 days
+    when: on_success
+    paths:
+      - node_modules/
+
+test:
+  stage: test
+  dependencies:
+    - npm
+  script:
+    - npm test
+
