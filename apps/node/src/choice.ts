@@ -8,7 +8,7 @@ function unmask(ip: string, prefix: number): number {
     return ipInt & mask;
 }
 
-export function cidrChoices(ip: string, prefix: number) {
+function cidrChoices(ip: string, prefix: number) {
     const network = unmask(ip, prefix);
     const blockSize = 2 ** (32 - prefix);
 
@@ -48,3 +48,5 @@ export function cidrChoices(ip: string, prefix: number) {
         answer: choices.indexOf(network),
     };
 }
+
+export {unmask, cidrChoices}
