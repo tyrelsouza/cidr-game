@@ -1,4 +1,4 @@
-import {ipToInt, intToIp, randomIP} from "./ip.ts"
+import {ipToInt, intToIp, randomIP, randomSuffix} from "./ip.ts"
 import {describe, expect, it} from "vitest";
 
 describe("ipToInt", () => {
@@ -18,5 +18,24 @@ describe("intToIp", () => {
     expect(intToIp(2130706433)).toBe("127.0.0.1")
     expect(intToIp(-1)).toBe("255.255.255.255")
     expect(intToIp(4294967297)).toBe("0.0.0.1") // roll over
+  })
+})
+
+describe("randomSuffix", () => {
+  it("picks a random suffix between 1 and 31", () => {
+    for (var i = 0; i < 10000; i++){
+      const s = randomSuffix();
+      expect(0 < s).toBe(true)
+      expect(s < 32).toBe(true)
+    }
+  });
+})
+
+describe("randomIP", () => {
+  it("looks like an ip", () => {
+    const ipv4Regex = /^(?:(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)\.){3}(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)$/;
+    for (var i = 0; i < 10000; i++){
+      ipv4Regex.test(randomIP())
+    }
   })
 })
