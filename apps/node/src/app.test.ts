@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import request from "supertest";
-import app from "./app";
+import app from "./app.ts";
 
 describe("API", () => {
     it("GET /api/new_ip returns an IP and suffix", async () => {
