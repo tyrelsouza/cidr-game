@@ -63,6 +63,13 @@ npm run build:static
 Build or preview either app independently with `npm run build:react`,
 `npm run build:vue`, `npm run preview:react`, or `npm run preview:vue`.
 
+The generated apps are configured for `/react/` and `/vue/` respectively. Host
+`apps/react/dist/` at `/react` and `apps/vue/dist/` at `/vue`.
+
+Production builds call the Render API directly and the Node API allows requests
+from `https://cidr-game.bureauofsidequests.com`. Local development continues to
+use the Vite API proxy.
+
 ### Tests
 ```bash
 npm run test:watch

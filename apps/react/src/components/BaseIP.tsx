@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react'
 import type { CidrChoices } from '@cidr-game/shared';
 
+const apiUrl = import.meta.env.VITE_API_URL ?? "";
+
 type BaseIPProps = {
   cidr: CidrChoices;
   handleCorrect?: () => void;
@@ -16,7 +18,7 @@ export default function BaseIP(props: BaseIPProps) {
      const handleNewQuestion = async (cidr: CidrChoices) => {
         const {ip, suffix} = cidr
         if (ip !== undefined && suffix !== undefined) {
-          const resp = await fetch(`/api/generate?base=${ip}&suffix=${suffix}`);
+          const resp = await fetch(`${apiUrl}/api/generate?base=${ip}&suffix=${suffix}`);
           const result = await resp.json();
           setChoices(result.choices ?? []);
           setAnswer(result.answer ?? -1);

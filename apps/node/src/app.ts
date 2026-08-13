@@ -5,6 +5,26 @@ import { cidrChoices } from "./choice.ts";
 import type { CidrChoiceQuery } from "@cidr-game/shared";
 
 const app = express();
+const allowedOrigins = new Set([
+    "https://cidr-game.bureauofsidequests.com",
+    "http://localhost:5155",
+    "http://localhost:5173",
+]);
+
+app.use((req, res, next) => {
+    const origin = req.get("Origin");
+    if (origin !== undefined && allowedOrigins.has(origin)) {
+        res.setHeader("Access-Control-Allow-Origin", origin);
+        res.setHeader("Vary", "Origin");
+        res.setHeader("Access-Control-Allow-Methods", "GET,OPTIONS");
+        res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+    }
+    if (req.method === "OPTIONS") {
+        res.sendStatus(204);
+        return;
+    }
+    next();
+});
 
 app.get("/healthz", (_, res: Response) => {
     res.sendStatus(200);

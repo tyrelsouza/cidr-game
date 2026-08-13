@@ -3,6 +3,7 @@ import './App.css'
 import BaseIP from "./components/BaseIP"
 import type { CidrChoices } from "@cidr-game/shared";
 
+const apiUrl = import.meta.env.VITE_API_URL ?? "";
 
 function App() {
   const [cidr, setCidr] = useState<CidrChoices>({'ip': '', 'choices': [], answer: -1});
@@ -18,7 +19,7 @@ function App() {
   }
 
   async function getNew(){
-    const resp = await fetch("/api/new_ip");
+    const resp = await fetch(`${apiUrl}/api/new_ip`);
     const result = await resp.json();
     console.log(result)
     setCidr(result);

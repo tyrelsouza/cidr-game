@@ -2,19 +2,21 @@
 import { ref, watch } from 'vue'
 import type { CidrChoices, CIDR } from "@cidr-game/shared";
 
+const apiUrl = import.meta.env.VITE_API_URL ?? '';
+
 const correct = ref(0);
 const incorrect = ref(0);
 const cidr = ref<CIDR>({'ip': undefined, 'suffix':-1})
 const cidrChoice = ref<CidrChoices>({'ip': '', 'choices': [], 'answer': -1})
 
 async function getCIDRChoice(ip: string, suffix: number){
-    const resp = await fetch(`/api/generate?base=${ip}&suffix=${suffix}`);
+    const resp = await fetch(`${apiUrl}/api/generate?base=${ip}&suffix=${suffix}`);
     const result = await resp.json();
     cidrChoice.value = result;
 }
 
 async function getNewCIDR() {
-    const resp = await fetch("/api/new_ip");
+    const resp = await fetch(`${apiUrl}/api/new_ip`);
     const result = await resp.json();
     cidr.value = result;
 }

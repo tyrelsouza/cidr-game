@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "node": "npm run dev --workspace=apps/node",
+    "start": "npm run start --workspace=apps/node",
     "react": "npm run dev --workspace=apps/react",
     "vue": "npm run dev --workspace=apps/vue",
     "build:react": "npm run build --workspace=apps/react",
