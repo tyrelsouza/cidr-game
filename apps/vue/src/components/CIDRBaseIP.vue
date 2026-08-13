@@ -47,7 +47,7 @@ function newGame(){
     <h1> CIDR Game </h1>
     <hr />
     <button @click="newGame"> New Game </button>
-    <h2 v-if="cidr.ip"> SCORE: {{correct}}/{{incorrect}}</h2>
+    <h2 v-if="cidr.ip"> SCORE: ✅{{correct}}/❌{{incorrect}}</h2>
     <div v-if="cidr.ip">
       <h3>{{cidr.ip}}/{{cidr.suffix}}</h3>
       <p> What is the Base IP?</p>
