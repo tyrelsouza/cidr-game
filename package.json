@@ -7,8 +7,13 @@
     "node": "npm run dev --workspace=apps/node",
     "react": "npm run dev --workspace=apps/react",
     "vue": "npm run dev --workspace=apps/vue",
+    "build:react": "npm run build --workspace=apps/react",
+    "build:vue": "npm run build --workspace=apps/vue",
+    "build:static": "npm run build:react && npm run build:vue",
+    "preview:react": "npm run preview --workspace=apps/react",
+    "preview:vue": "npm run preview --workspace=apps/vue",
     "test:watch": "npm run test:watch --workspaces",
-   "test": "vitest run"
+    "test": "vitest run"
   },
   "workspaces": [
     "apps/*",

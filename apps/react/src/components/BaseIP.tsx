@@ -1,18 +1,25 @@
 import { useState, useEffect } from 'react'
+import type { CidrChoices } from '@cidr-game/shared';
 
-export default function BaseIP(props) {
-  const [choices,  setChoices] = useState([]);
+type BaseIPProps = {
+  cidr: CidrChoices;
+  handleCorrect?: () => void;
+  handleIncorrect?: () => void;
+};
+
+export default function BaseIP(props: BaseIPProps) {
+  const [choices, setChoices] = useState<string[]>([]);
   const [answer, setAnswer] = useState(0);
   const {cidr} = props; 
 
   useEffect(() => {
-     const handleNewQuestion = async (cidr) => {
+     const handleNewQuestion = async (cidr: CidrChoices) => {
         const {ip, suffix} = cidr
-        if (ip !== undefined) {
+        if (ip !== undefined && suffix !== undefined) {
           const resp = await fetch(`/api/generate?base=${ip}&suffix=${suffix}`);
           const result = await resp.json();
-          setChoices(result.choices);
-          setAnswer(result.answer);
+          setChoices(result.choices ?? []);
+          setAnswer(result.answer ?? -1);
         }
      }
      if (props.cidr){
@@ -22,9 +29,9 @@ export default function BaseIP(props) {
 
   const check = (idx: number) => {
       if(idx === answer){
-        props.handleCorrect();
+        props.handleCorrect?.();
       } else {
-        props.handleIncorrect();
+        props.handleIncorrect?.();
       }
   }
 
@@ -38,4 +45,3 @@ export default function BaseIP(props) {
     </>
   )
 }
-

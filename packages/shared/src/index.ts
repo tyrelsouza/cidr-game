@@ -4,6 +4,7 @@ interface CidrChoiceQuery {
 }
 interface CidrChoices {
   ip?: string;
+  suffix?: number;
   choices?: string[];
   answer?: number;
 }
@@ -13,4 +14,4 @@ interface CIDR {
 }
 
 
-export {CidrChoiceQuery, CidrChoices, CIDR};
+export type {CidrChoiceQuery, CidrChoices, CIDR};

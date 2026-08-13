@@ -52,6 +52,17 @@ Open the React app at `http://localhost:5155`. Keep the Kubernetes port-forward
 running so the Vite development proxy can reach the Node API at
 `http://localhost:3000`.
 
+### Static builds
+
+Build both frontend apps into their workspace `dist/` directories:
+
+```bash
+npm run build:static
+```
+
+Build or preview either app independently with `npm run build:react`,
+`npm run build:vue`, `npm run preview:react`, or `npm run preview:vue`.
+
 ### Tests
 ```bash
 npm run test:watch
