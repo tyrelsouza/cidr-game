@@ -13,14 +13,26 @@ npm run node
 
 ### Kubernetes
 
-Build the server image from the repository root and apply the manifests:
+Start Minikube, build the server image inside Minikube, and apply the manifests:
 
 ```bash
-docker build -t cidr-game-node:latest .
-kubectl apply -k k8s/
+minikube start
+minikube image build -t cidr-game-node:latest .
+minikube kubectl -- apply -k k8s/
 ```
 
-The API is available inside the cluster at `http://cidr-node:3000`.
+The API uses an internal ClusterIP service. In a second terminal, forward it to
+your local machine:
+
+```bash
+minikube kubectl -- port-forward service/cidr-node 3000:3000
+```
+
+The API is then available at `http://localhost:3000`. You can check it with:
+
+```bash
+curl http://localhost:3000/healthz
+```
 
 ## Front End
 
@@ -35,6 +47,10 @@ npm run vue
 ```bash
 npm run react
 ```
+
+Open the React app at `http://localhost:5155`. Keep the Kubernetes port-forward
+running so the Vite development proxy can reach the Node API at
+`http://localhost:3000`.
 
 ### Tests
 ```bash
