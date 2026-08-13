@@ -8,7 +8,8 @@
     "test:watch": "vitest",
     "test:run": "vitest run --coverage",
     "test:coveragge": "vitest run --coverage",
-    "dev": "tsx watch src/index.ts"
+    "dev": "tsx watch src/index.ts",
+    "start": "tsx src/index.ts"
   },
   "keywords": [],
   "type": "module",

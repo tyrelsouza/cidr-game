@@ -6,6 +6,10 @@ import type { CidrChoiceQuery } from "@cidr-game/shared";
 
 const app = express();
 
+app.get("/healthz", (_, res: Response) => {
+    res.sendStatus(200);
+});
+
 app.get("/api/new_ip", (_, res: Response) => {
     res.json({
         ip: randomIP(),

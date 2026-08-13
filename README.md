@@ -11,6 +11,17 @@ Really quick quiz game that keeps track of correct/incorrect guesses.
 npm run node
 ```
 
+### Kubernetes
+
+Build the server image from the repository root and apply the manifests:
+
+```bash
+docker build -t cidr-game-node:latest .
+kubectl apply -k k8s/
+```
+
+The API is available inside the cluster at `http://cidr-node:3000`.
+
 ## Front End
 
 ### Vue3 Server
