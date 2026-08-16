@@ -9,7 +9,7 @@ export default defineConfig({
     port: 5155,
     proxy: {
       "/api": {
-        target: "https://cidr-game.onrender.com",
+        target: "https://nodr-cidr.tyrel.pw",
         changeOrigin: true,
       },
     },

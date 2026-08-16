@@ -66,7 +66,7 @@ Build or preview either app independently with `npm run build:react`,
 The generated apps are configured for `/react/` and `/vue/` respectively. Host
 `apps/react/dist/` at `/react` and `apps/vue/dist/` at `/vue`.
 
-Production builds call the Render API directly and the Node API allows requests
+Production builds call the API directly and the Node API allows requests
 from `https://cidr-game.bureauofsidequests.com`. Local development continues to
 use the Vite API proxy.
 
