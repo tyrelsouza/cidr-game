@@ -40,7 +40,7 @@ cd apps/react && npx vitest run src/components/BaseIP.test.tsx   # frontends nee
 
 **API flow (two calls per question):**
 1. `GET /api/new_ip` returns `{ip, suffix}`: a random IPv4 address and a weighted-random prefix (`randomSuffix` in `apps/node/src/ip.ts` favors /16 and /20–/31).
-2. The frontend then calls `GET /api/generate?base=<ip>&suffix=<n>`, which returns `{choices: string[], answer: number}`. `cidrChoices` in `apps/node/src/choice.ts` masks the IP down to its network address and adds the nearest in-range subnet blocks as distractors (alternating −1, +1, −2, +2…, never wrapping past either end of the address space), shuffled. `answer` is the index of the correct choice. At /1 only two networks exist, so it returns 2 choices instead of 4.
+2. The frontend then calls `GET /api/generate?base=<ip>&suffix=<n>`, which returns `{choices: string[], answer: number}`. `cidrChoices` in `apps/node/src/choice.ts` masks the IP down to its network address and adds the nearest in-range subnet blocks as distractors (alternating −1, +1, −2, +2…, never wrapping past either end of the address space), shuffled. `answer` is the index of the correct choice. The API accepts `suffix` 2–32 and rejects /1 with a 400, since only two networks exist at /1 (`randomSuffix` never returns 1). `cidrChoices` itself still handles /1 by returning 2 choices.
 3. Scoring happens only on the client. The server keeps no state.
 
 IP math works on unsigned 32-bit integers (`ipToInt`/`intToIp`, using `>>> 0` to stay unsigned). Keep that convention when touching mask logic.

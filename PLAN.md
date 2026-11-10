@@ -31,7 +31,7 @@ Replace the "previous, next, then +2, +3…" loop with a bounded search that nev
 - Work out how many networks exist at this prefix (`2 ** prefix`) and where the answer's network sits among them.
 - Take neighbouring networks alternately below and above (−1, +1, −2, +2, …), skipping any outside 0 to 2³² − 1, until there are three or none are left.
 - The loop is limited by how many networks exist, so it always finishes.
-- **Behaviour change:** at /1 only two networks exist, so the response has 2 choices instead of 4. Both frontends render whatever is in `choices`, so they need no changes. (Open decision below.)
+- **Behaviour change:** at /1 only two networks exist, so the response has 2 choices instead of 4. Both frontends render whatever is in `choices`, so they need no changes. (Superseded: the API now rejects /1, see the decision below.)
 - **Tests:**
   - Loop over every prefix from 1 to 32 with a low, a middle and a high IP. Each time, check that the choices are unique, valid addresses, include the correct network, and number `min(4, 2 ** prefix)`.
   - Check that `255.255.255.253/30` gives `.240`, `.244`, `.248` and `.252`, with no wrap to `0.0.0.0`.
@@ -65,7 +65,9 @@ Replace the "previous, next, then +2, +3…" loop with a bounded search that nev
 
 ## Open decision
 
-At /1, either return 2 choices (recommended, since only two networks exist), or remove 1 from `randomSuffix` and reject `suffix=1` so every question keeps 4 choices.
+At /1, either return 2 choices, or remove 1 from `randomSuffix` and reject `suffix=1` so every question keeps 4 choices.
+
+**Decided:** reject /1. The API accepts `suffix` 2–32 and `randomSuffix` no longer returns 1. `cidrChoices` still returns 2 choices if called directly with /1.
 
 ## Out of scope
 
