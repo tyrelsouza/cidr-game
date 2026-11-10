@@ -1,5 +1,5 @@
 import {ipToInt, intToIp, randomIP, randomSuffix, availableHosts} from "./ip.ts"
-import {describe, expect, it} from "vitest";
+import {afterEach, describe, expect, it, vi} from "vitest";
 
 describe("ipToInt", () => {
   it("converts good", () => {
@@ -35,8 +35,29 @@ describe("randomIP", () => {
   it("looks like an ip", () => {
     const ipv4Regex = /^(?:(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)\.){3}(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)$/;
     for (var i = 0; i < 10000; i++){
-      ipv4Regex.test(randomIP())
+      expect(randomIP()).toMatch(ipv4Regex)
     }
+  })
+
+  describe("range", () => {
+    afterEach(() => {
+      vi.restoreAllMocks()
+    })
+
+    it("returns 0.0.0.0 at the bottom of Math.random's range", () => {
+      vi.spyOn(Math, "random").mockReturnValue(0)
+      expect(randomIP()).toBe("0.0.0.0")
+    })
+
+    it("returns 255.255.255.255 at the top of Math.random's range, without wrapping to 0.0.0.0", () => {
+      vi.spyOn(Math, "random").mockReturnValue(1 - 2 ** -53) // largest value Math.random can return
+      expect(randomIP()).toBe("255.255.255.255")
+    })
+
+    it("maps the midpoint of Math.random's range to 128.0.0.0", () => {
+      vi.spyOn(Math, "random").mockReturnValue(0.5)
+      expect(randomIP()).toBe("128.0.0.0")
+    })
   })
 })
 

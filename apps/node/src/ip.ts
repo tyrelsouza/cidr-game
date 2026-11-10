@@ -15,9 +15,8 @@ function intToIp(n: number): string {
 }
 
 function randomIP(): string {
-  const min = Math.ceil(0);
-  const max = Math.floor(Math.pow(2, 32));
-  const ip = Math.floor(Math.random() * (max - min + 1)) + min;
+  // Uniform over 0 .. 2^32 - 1.
+  const ip = Math.floor(Math.random() * 2 ** 32);
   return intToIp(ip)
 }
 

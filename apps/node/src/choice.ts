@@ -4,8 +4,10 @@ import {shuffle} from "./utils.ts"
 
 function unmask(ip: string, prefix: number): number {
     const ipInt = ipToInt(ip);
-    const mask = (0xffffffff << (32 - prefix)) >>> 0;
-    return ipInt & mask;
+    // JS masks shift counts to 5 bits, so `<< 32` would be `<< 0`; handle /0 explicitly.
+    const mask = prefix === 0 ? 0 : (0xffffffff << (32 - prefix)) >>> 0;
+    // `&` yields a signed 32-bit result; `>>> 0` keeps it unsigned.
+    return (ipInt & mask) >>> 0;
 }
 
 function cidrChoices(ip: string, prefix: number) {
