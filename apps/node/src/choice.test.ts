@@ -98,3 +98,19 @@ describe("cidrChoices", () => {
     }
   });
 });
+
+describe("cidrChoices answer position", () => {
+  // The bug players see: the correct answer clustered in the first/last slot.
+  // 40,000 runs, ± 2% is > 9 standard deviations (see utils.test.ts).
+  it("puts the correct answer in each of the 4 slots 25% ± 2% of the time", () => {
+    const RUNS = 40_000
+    const counts = [0, 0, 0, 0]
+    for (let i = 0; i < RUNS; i++) {
+      counts[cidrChoices("10.0.15.130", 26).answer]! += 1
+    }
+    for (const c of counts) {
+      expect(c / RUNS).toBeGreaterThanOrEqual(0.23)
+      expect(c / RUNS).toBeLessThanOrEqual(0.27)
+    }
+  });
+});
