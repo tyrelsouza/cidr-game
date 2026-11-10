@@ -1,4 +1,4 @@
-import {ipToInt, intToIp, randomIP, randomSuffix, availableHosts} from "./ip.ts"
+import {ipToInt, intToIp, randomIP, randomSuffix, availableHosts, parseIPv4} from "./ip.ts"
 import {afterEach, describe, expect, it, vi} from "vitest";
 
 describe("ipToInt", () => {
@@ -73,5 +73,45 @@ describe("availableHosts", () => {
     expect(availableHosts(28)).toBe(14)
     expect(availableHosts(2)).toBe(1073741822)
     expect(availableHosts(1)).toBe(2147483646)
+  })
+})
+
+describe("parseIPv4", () => {
+  // expected values checked with Python's ipaddress.IPv4Address
+  it.each([
+    ["0.0.0.0", 0],
+    ["255.255.255.255", 4294967295],
+    ["10.0.15.130", 167776130],
+    ["192.168.1.1", 3232235777],
+  ])("parses %s to %i", (input, expected) => {
+    expect(parseIPv4(input)).toBe(expected)
+  })
+
+  it.each([
+    "999.1.1.1",     // octet over 255
+    "256.0.0.0",
+    "1.2.3",         // too few octets
+    "1.2.3.4.5",     // too many octets
+    "apple",
+    "",
+    "01.2.3.4",      // leading zero
+    "1.2.3.-4",      // negative octet
+    " 1.2.3.4",      // whitespace
+    "1.2.3.4 ",
+    "1..3.4",        // empty octet
+    "0x1.2.3.4",     // hex
+    "1.2.3.4/24",    // CIDR notation, not a bare address
+  ])("rejects %j", (input) => {
+    expect(parseIPv4(input)).toBeNull()
+  })
+
+  it.each([
+    [undefined],
+    [null],
+    [167776130],
+    [["1.2.3.4"]],
+    [{}],
+  ])("rejects non-string %j", (input) => {
+    expect(parseIPv4(input)).toBeNull()
   })
 })

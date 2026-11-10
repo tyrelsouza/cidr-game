@@ -41,8 +41,9 @@ Replace the "previous, next, then +2, +3…" loop with a bounded search that nev
 - Add `parseIPv4(s: unknown): number | null` to `ip.ts`. It requires a string of exactly four dot-separated decimal octets, each 0–255. `ipToInt` stays as it is, so its existing `"apple" → 0` test still passes.
 - In `app.ts`, require `suffix` to be a string of digits with a value from 1 to 32. /0 is rejected because it has only one network, so there would be nothing to choose between.
 - Reject an array or other non-string value with **400** and `{"error": "..."}`.
-- When a parameter is missing, keep the current defaults (`192.168.1.1`, `30`).
-- Add a final error handler that returns `500 {"error": "internal error"}` instead of Express's HTML page with the stack trace.
+- When a parameter is missing, keep the current defaults (`192.168.1.1`, `30`). A parameter that is present but empty (`?suffix=`) gets 400.
+- Strict formats: no leading zeros (`08`, `01.2.3.4`), signs (`+30`), whitespace, decimals or hex. This matches Python's `ipaddress.IPv4Address`, which was used to check the expected values.
+- Add a final error handler, exported from `app.ts` as `errorHandler`, that returns `500 {"error": "internal error"}` instead of Express's HTML page with the stack trace.
 - **Tests (supertest):**
   - 400 for `suffix=abc`, `2000`, `-2000`, `0`, `33` and `1.5`.
   - 400 for `base=a&base=b`, `999.1.1.1`, `1.2.3` and `apple`.
