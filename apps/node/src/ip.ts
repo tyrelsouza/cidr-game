@@ -14,17 +14,27 @@ function intToIp(n: number): string {
     ].join(".");
 }
 
+// One decimal octet 0-255 with no leading zeros ("0" is fine, "00" and "08" are not).
+const OCTET = "(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)";
+const IPV4_RE = new RegExp(`^${OCTET}\\.${OCTET}\\.${OCTET}\\.${OCTET}$`);
+
+// Strict parse for untrusted input: returns the unsigned integer, or null if `s` is not
+// exactly a dotted-quad IPv4 address. Unlike ipToInt, it never guesses.
+function parseIPv4(s: unknown): number | null {
+  if (typeof s !== "string" || !IPV4_RE.test(s)) { return null }
+  return ipToInt(s);
+}
+
 function randomIP(): string {
-  const min = Math.ceil(0);
-  const max = Math.floor(Math.pow(2, 32));
-  const ip = Math.floor(Math.random() * (max - min + 1)) + min;
+  // Uniform over 0 .. 2^32 - 1.
+  const ip = Math.floor(Math.random() * 2 ** 32);
   return intToIp(ip)
 }
 
 function randomSuffix(): number {
   const weighted = [
-    // normal values (1x)
-    1, 2, 3, 4, 5, 6, 7,
+    // normal values (1x); /1 is left out because the API rejects it
+    2, 3, 4, 5, 6, 7,
     9, 10, 11, 12, 13, 14, 15,
     17, 18, 19,
   
@@ -55,4 +65,4 @@ function availableHosts(cidr: number): number {
   return Math.pow(2, 32-cidr) - 2;
 }
 
-export {randomIP, randomSuffix, intToIp, ipToInt, availableHosts};
+export {randomIP, randomSuffix, intToIp, ipToInt, parseIPv4, availableHosts};

@@ -1,8 +1,13 @@
 import express from 'express';
-import type { Request, Response } from 'express';
-import { randomIP, randomSuffix } from "./ip.ts";
+import type { ErrorRequestHandler, Request, Response } from 'express';
+import { parseIPv4, randomIP, randomSuffix } from "./ip.ts";
 import { cidrChoices } from "./choice.ts";
-import type { CidrChoiceQuery } from "@cidr-game/shared";
+
+const DEFAULT_BASE = "192.168.1.1";
+const DEFAULT_SUFFIX = 30;
+// Integer 2-32 with no sign, spaces, leading zeros or decimals.
+// /1 is rejected: only two networks exist, too few for a useful question.
+const SUFFIX_RE = /^(?:[2-9]|[12]\d|3[0-2])$/;
 
 const app = express();
 const allowedOrigins = new Set([
@@ -37,11 +42,29 @@ app.get("/api/new_ip", (_, res: Response) => {
     });
 });
 
-app.get("/api/generate", (req: Request<{}, {}, {}, CidrChoiceQuery>, res: Response) => {
-    const base = req.query.base || '192.168.1.1';
-    const suffix = Number(req.query.suffix || '30');
+app.get("/api/generate", (req: Request, res: Response) => {
+    // Query values are untrusted: a repeated parameter arrives as an array, so check the
+    // type as well as the format. Missing means "use the default"; present but invalid is a 400.
+    const { base, suffix } = req.query as Record<string, unknown>;
 
-    res.json(cidrChoices(base, suffix));
+    if (base !== undefined && (typeof base !== "string" || parseIPv4(base) === null)) {
+        res.status(400).json({ error: "base must be a single IPv4 address, e.g. 10.0.0.1" });
+        return;
+    }
+    if (suffix !== undefined && (typeof suffix !== "string" || !SUFFIX_RE.test(suffix))) {
+        res.status(400).json({ error: "suffix must be a single whole number from 2 to 32" });
+        return;
+    }
+
+    res.json(cidrChoices(base ?? DEFAULT_BASE, suffix === undefined ? DEFAULT_SUFFIX : Number(suffix)));
 });
 
+// Last in the chain: log the real error, but never send its message or stack to the client.
+const errorHandler: ErrorRequestHandler = (err, _req, res, _next) => {
+    console.error(err);
+    res.status(500).json({ error: "internal error" });
+};
+app.use(errorHandler);
+
+export { errorHandler };
 export default app;
