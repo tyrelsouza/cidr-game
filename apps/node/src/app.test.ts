@@ -34,7 +34,7 @@ describe("GET /api/generate input validation", () => {
         it.each([
             ["base=10.0.15.130&suffix=26", "10.0.15.128"],
             ["base=255.255.255.255&suffix=32", "255.255.255.255"],
-            ["base=0.0.0.0&suffix=1", "0.0.0.0"],
+            ["base=200.1.1.1&suffix=2", "192.0.0.0"],     // smallest allowed prefix
             ["base=192.168.1.1&suffix=8", "192.0.0.0"],
         ])("%s -> correct answer %s", async (query, network) => {
             const res = await generate(query);
@@ -59,7 +59,7 @@ describe("GET /api/generate input validation", () => {
 
     describe("rejects an invalid suffix with 400", () => {
         it.each([
-            "abc", "2000", "-2000", "0", "33", "1.5", "", "08", "%2030", "%2B30", "1e1", "Infinity", "NaN",
+            "abc", "2000", "-2000", "0", "1", "33", "1.5", "", "08", "%2030", "%2B30", "1e1", "Infinity", "NaN",
         ])("suffix=%s", async (suffix) => {
             const res = await generate(`base=10.0.0.1&suffix=${suffix}`);
 

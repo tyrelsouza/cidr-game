@@ -5,8 +5,9 @@ import { cidrChoices } from "./choice.ts";
 
 const DEFAULT_BASE = "192.168.1.1";
 const DEFAULT_SUFFIX = 30;
-// Integer 1-32 with no sign, spaces, leading zeros or decimals.
-const SUFFIX_RE = /^(?:[1-9]|[12]\d|3[0-2])$/;
+// Integer 2-32 with no sign, spaces, leading zeros or decimals.
+// /1 is rejected: only two networks exist, too few for a useful question.
+const SUFFIX_RE = /^(?:[2-9]|[12]\d|3[0-2])$/;
 
 const app = express();
 const allowedOrigins = new Set([
@@ -51,7 +52,7 @@ app.get("/api/generate", (req: Request, res: Response) => {
         return;
     }
     if (suffix !== undefined && (typeof suffix !== "string" || !SUFFIX_RE.test(suffix))) {
-        res.status(400).json({ error: "suffix must be a single whole number from 1 to 32" });
+        res.status(400).json({ error: "suffix must be a single whole number from 2 to 32" });
         return;
     }
 

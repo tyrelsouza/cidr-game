@@ -33,8 +33,8 @@ function randomIP(): string {
 
 function randomSuffix(): number {
   const weighted = [
-    // normal values (1x)
-    1, 2, 3, 4, 5, 6, 7,
+    // normal values (1x); /1 is left out because the API rejects it
+    2, 3, 4, 5, 6, 7,
     9, 10, 11, 12, 13, 14, 15,
     17, 18, 19,
   

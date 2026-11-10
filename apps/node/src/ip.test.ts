@@ -22,10 +22,11 @@ describe("intToIp", () => {
 })
 
 describe("randomSuffix", () => {
-  it("picks a random suffix between 1 and 31", () => {
+  it("picks a random suffix between 2 and 31", () => {
+    // /1 is excluded: only two networks exist, so it can't make a 4-choice question.
     for (var i = 0; i < 10000; i++){
       const s = randomSuffix();
-      expect(0 < s).toBe(true)
+      expect(s >= 2).toBe(true)
       expect(s < 32).toBe(true)
     }
   });
